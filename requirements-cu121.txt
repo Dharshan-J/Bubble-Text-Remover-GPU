@@ -1,0 +1,25 @@
+# Pinned, GPU-ready lockfile for CUDA 12.1 (ideal for RTX 4090).
+#
+# Installs EVERYTHING in one shot, including the CUDA build of PyTorch:
+#
+#     pip install -r requirements-cu121.txt
+#
+# If you prefer newer CUDA wheels (e.g. cu124), bump the index URL and the
+# torch pin together; keep torch and onnxruntime-gpu on the same CUDA major.
+
+--extra-index-url https://download.pytorch.org/whl/cu121
+
+torch==2.3.1+cu121
+
+# CUDA-12 build to match torch+cu121 above. (1.18.1 was a CUDA-11.8 build and
+# would not load its GPU provider next to cu121 torch.) If this won't install,
+# your Python is likely 3.13 — use a 3.10/3.11 venv, or fall back to CPU
+# detection by replacing this line with:  onnxruntime==1.19.2
+onnxruntime-gpu==1.19.2
+opencv-python-headless==4.10.0.84
+numpy==1.26.4
+tqdm==4.66.4
+requests==2.32.3
+
+# Web UI (app.py). Remove if you only use the CLI.
+gradio==4.44.1

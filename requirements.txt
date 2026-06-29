@@ -1,0 +1,15 @@
+# Core dependencies (CPU-side libs + ONNX Runtime GPU).
+#
+# PyTorch is intentionally NOT listed here — install the CUDA build separately
+# so pip can't silently pull the CPU-only wheel. See README "Setup" step 3.
+#
+#   pip install torch --index-url https://download.pytorch.org/whl/cu121
+
+# onnxruntime-gpu >=1.19 ships CUDA-12 wheels by default (matches cu121 torch).
+# If it refuses to install: check `python --version` is 3.9-3.12, OR fall back
+# to CPU detection with the plain build:  pip install onnxruntime
+onnxruntime-gpu>=1.19.2
+opencv-python-headless>=4.8.0
+numpy>=1.24,<2.0
+tqdm>=4.66.0
+requests>=2.31.0

@@ -1,0 +1,41 @@
+# =============================================================================
+# CUDA 13 build for RTX 4090 (driver that supports CUDA 13).
+# Install with:
+#     pip install -r requirements-cu130.txt
+#
+# WHY THIS LAYOUT:
+#  * PyTorch ships native CUDA-13 wheels (cu130).
+#  * onnxruntime-gpu on PyPI is still a CUDA-12 build, but NVIDIA drivers are
+#    backward compatible, so the CUDA-12 ORT runs fine on your CUDA-13 driver.
+#    This is the stable path. (A fully-native CUDA-13 ORT only exists as a
+#    nightly today — see the note at the bottom if you want it.)
+#
+# We use --extra-index-url (NOT --index-url) to work around a known gap in the
+# cu130 index where 'cuda-bindings' is only published on PyPI.
+# =============================================================================
+
+--extra-index-url https://download.pytorch.org/whl/cu130
+
+# Native CUDA-13 PyTorch. Bump the version if you want a newer one (2.10/2.11
+# are also on cu130); keep the +cu130 tag so pip can't grab the PyPI CUDA-12 wheel.
+torch==2.9.0+cu130
+
+# CUDA-12 ORT build from PyPI — runs on the CUDA-13 driver.
+onnxruntime-gpu>=1.22
+
+opencv-python-headless==4.10.0.84
+numpy==1.26.4
+tqdm==4.66.4
+requests==2.32.3
+
+# Web UI (app.py). Remove if you only use the CLI.
+gradio==4.44.1
+
+# -----------------------------------------------------------------------------
+# OPTIONAL — fully-native CUDA-13 ONNX Runtime (nightly, less stable).
+# Only do this if the CUDA-12 ORT above refuses to use the GPU. Remove the
+# 'onnxruntime-gpu>=1.22' line above, install everything else, THEN run:
+#
+#   pip install --pre onnxruntime-gpu \
+#     --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ort-cuda-13-nightly/pypi/simple/
+# -----------------------------------------------------------------------------
